@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuardCore", "ZoneGuardC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuardShared", "ZoneGuardShared\ZoneGuardShared.csproj", "{C96CA839-C49F-426F-854E-3873F109886B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D1498C83-66C3-472D-923C-A225EED7FB5B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneGuardService.Mqtt", "Services\ZoneGuardMqttService\ZoneGuardService.Mqtt.csproj", "{06799E66-F36D-4E7F-B3D5-05419122DC31}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,16 +21,9 @@ Global
 		{C96CA839-C49F-426F-854E-3873F109886B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C96CA839-C49F-426F-854E-3873F109886B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C96CA839-C49F-426F-854E-3873F109886B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06799E66-F36D-4E7F-B3D5-05419122DC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06799E66-F36D-4E7F-B3D5-05419122DC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06799E66-F36D-4E7F-B3D5-05419122DC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06799E66-F36D-4E7F-B3D5-05419122DC31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{06799E66-F36D-4E7F-B3D5-05419122DC31} = {D1498C83-66C3-472D-923C-A225EED7FB5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA7D0909-BBC7-4271-8498-BB0634CF7B39}

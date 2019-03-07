@@ -12,11 +12,15 @@ using MQTTnet.Protocol;
 using System;
 using MQTTnet;
 using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ZoneGuard.Core
 {
     class ZoneGuardMQTTService : CoreDaemonService
     {
+        private ConfigServiceMQTT configMQTT;
+
         private IMqttClient mqttClient = null;
         private IMqttClientOptions clientOptions = null;
         private Dictionary<string, CallbackEventHandler> subscriptions;
@@ -26,12 +30,17 @@ namespace ZoneGuard.Core
 
 
 
-        public ZoneGuardMQTTService(IConfiguration configuration, IHostingEnvironment environment, ILogger<ZoneGuardMQTTService> logger, IOptions<MQTTConfig> config, IApplicationLifetime appLifetime)
+        public ZoneGuardMQTTService(IConfiguration configuration, IHostingEnvironment environment, ILogger<ZoneGuardMQTTService> logger, IOptions<ConfigServiceMQTT> config, IApplicationLifetime appLifetime)
             : base(configuration, environment, logger, config, appLifetime)
         {
+            configMQTT = config.Value;
+            /*
+            string host = configuration["host"];
+            string port = configuration["port"];
+            string user = configuration["user"];
+            string password = configuration["password"];
+            */
         }
-
-
 
         protected override void OnStopping()
         {
@@ -60,6 +69,83 @@ namespace ZoneGuard.Core
         protected override void OnInitialized()
         {
             Logger.LogDebug("OnInitialized method called.");
+
+
+            try
+            {
+                
+                
+                var factory = new MqttFactory();
+                mqttClient = factory.CreateMqttClient();
+
+                lock (mqttClient)
+                {
+                    if (configMQTT.UseCredentials())
+                    {
+                        clientOptions = new MqttClientOptionsBuilder()
+                                    .WithClientId(Guid.NewGuid().ToString())
+                                    .WithTcpServer(configMQTT.Host)
+                                    .WithCredentials(configMQTT.UserName, configMQTT.Password)
+                                    .Build();
+
+                    }
+                    else
+                    {
+                        clientOptions = new MqttClientOptionsBuilder()
+                                    .WithClientId(Guid.NewGuid().ToString())
+                                    .WithTcpServer(configMQTT.Host)
+                                    .Build();
+
+                    }
+
+                    //Set delegate for processing MQTT messages
+                    mqttClient.ApplicationMessageReceived += onMqttMessageReceived;
+
+
+                    mqttClient.Connected += async (s, e) =>
+                    {
+                        string msg = "### MQTT Service CONNECTED WITH MQTT-SERVER ###";
+                        Logger.LogDebug(msg);
+                        Console.WriteLine(msg);
+                    };
+
+                    mqttClient.Disconnected += async (s, e) =>
+                    {
+                        Console.WriteLine("### DISCONNECTED FROM SERVER ###");
+                        await Task.Delay(TimeSpan.FromSeconds(5));
+
+                        try
+                        {
+                            await mqttClient.ConnectAsync(clientOptions);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("### RECONNECTING FAILED ###");
+                        }
+                    };
+
+                    try
+                    {
+
+                        mqttClient.ConnectAsync(clientOptions);
+                        while (!mqttClient.IsConnected)
+                            Thread.Sleep(100);
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine("### CONNECTING FAILED ###" + Environment.NewLine + exception);
+                    }
+                }
+
+                Logger.LogDebug("### WAITING FOR APPLICATION MESSAGES ###");
+
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+            
+
         }
 
 
@@ -67,6 +153,7 @@ namespace ZoneGuard.Core
 
         public void Publish(string topic, string payload)
         {
+            
             MqttApplicationMessage msg = new MqttApplicationMessage();
             msg.Topic = topic;
             //msg.Payload = Encoding.ASCII.GetBytes(payload);

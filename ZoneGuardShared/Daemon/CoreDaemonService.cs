@@ -13,10 +13,9 @@ namespace ZoneGuard.Shared.Daemon
 {
     public abstract class CoreDaemonService : IHostedService, IDisposable, IZoneGuardDaemon
     {
-        private readonly ILogger _logger;
-
         private readonly IOptions<ServiceConfig> _config;
 
+        private readonly ILogger _logger;
 
         private IApplicationLifetime appLifetime;
         //private ILogger<HomeMgrLifetimeHostedService> logger;
@@ -27,8 +26,8 @@ namespace ZoneGuard.Shared.Daemon
 
         public CoreDaemonService(IConfiguration configuration, IHostingEnvironment environment, ILogger<CoreDaemonService> logger, IOptions<ServiceConfig> config, IApplicationLifetime appLifetime)
         {
-            _logger = logger;
             _config = config;
+            _logger = logger;
             
             this.appLifetime = appLifetime;
             this.environment = environment;
