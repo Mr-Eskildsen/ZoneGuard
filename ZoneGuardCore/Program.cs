@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ZoneGuard.Core;
 using ZoneGuard.Shared.Daemon;
 
 namespace ZoneGuardCore
@@ -24,11 +25,14 @@ namespace ZoneGuardCore
     .ConfigureServices((hostContext, services) =>
     {
         services.AddOptions();
-        services.Configure<DaemonConfig>(hostContext.Configuration.GetSection("Daemon"));
+        services.Configure<ServiceConfig>(hostContext.Configuration.GetSection("Daemon"));
+        services.AddSingleton<IHostedService, ZoneGuardAlarmManagerService>();
 
-        services.AddSingleton<IHostedService, DaemonService>();
+        services.Configure<ServiceConfig>(hostContext.Configuration.GetSection("MQTT"));
+        services.AddSingleton<IHostedService, ZoneGuardMQTTService>();
     })
     .ConfigureLogging((hostingContext, logging) => {
+//        logging.SetMinimumLevel(LogLevel.Debug);
         logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
         logging.AddConsole();
     });
