@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuardCore", "ZoneGuard.Core\ZoneGuardCore.csproj", "{102EA2F2-667A-4C54-92A2-8C36A81CEF20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuard.Core", "ZoneGuard.Core\ZoneGuard.Core.csproj", "{102EA2F2-667A-4C54-92A2-8C36A81CEF20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuardWeb", "ZoneGuard.Web\ZoneGuardWeb.csproj", "{4CE986C6-BA60-4638-875C-0FD5B33A690B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuard.Web", "ZoneGuard.Web\ZoneGuard.Web.csproj", "{4CE986C6-BA60-4638-875C-0FD5B33A690B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneGuard.DAL", "ZoneGuard.DAL\ZoneGuard.DAL.csproj", "{849F1308-39C1-4BD7-A552-A749EF6D219E}"
 EndProject
