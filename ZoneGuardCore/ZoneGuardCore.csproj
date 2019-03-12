@@ -15,6 +15,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ZoneGuardMQTTService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ConfigServiceMQTT.c_" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -32,13 +40,15 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-    <PackageReference Include="MQTTnet" Version="2.8.5" />
-    <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="2.8.5" />
   </ItemGroup>
   
-
   <ItemGroup>
-    <ProjectReference Include="..\ZoneGuardShared\ZoneGuardShared.csproj" />
+    <ProjectReference Include="..\ZoneGuard.DAL\ZoneGuard.DAL.csproj" />
+    <ProjectReference Include="..\ZoneGuard.Shared\ZoneGuard.Shared.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Thing\Sensor\" />
   </ItemGroup>
   
 </Project>

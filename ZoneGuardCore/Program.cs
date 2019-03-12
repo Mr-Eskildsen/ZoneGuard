@@ -25,28 +25,28 @@ namespace ZoneGuardCore
         config.AddJsonFile("appsettings.json");
     })
 
+  
     .ConfigureServices((hostContext, services) =>
     {
-        /*
-        var configBuilder = new ConfigurationBuilder();
-        configBuilder
-            //.SetBasePath(env.ContentRootPath)
-            .AddJsonFile("mqtt_settings.json", optional: true, reloadOnChange: true)
-            //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-            .AddEnvironmentVariables();
-        */
-
+    
         services.AddOptions();
-        //services.Configure<ServiceConfig>(hostContext.Configuration.GetSection("Daemon"));
+
+        services.Configure<ServiceConfig>(hostContext.Configuration.GetSection("Daemon"));
         services.AddHostedService<ZoneGuardAlarmManagerService>();
+        /*
+        // DETTE VIRKER MEN BØR GØRES Anderledes:
+        //https://github.com/simpleinjector/SimpleInjector/issues/596
 
+        //    https://stackoverflow.com/questions/51254053/how-to-inject-a-reference-to-a-specific-ihostedservice-implementation/51314147
 
-        
         //services.AddOptions();
         services.Configure<ConfigServiceMQTT>(hostContext.Configuration.GetSection("MQTT"));
-        //services.AddSingleton<IHostedService, ZoneGuardMQTTService>();
-        //services.AddSingleton(hostContext.Configuration.GetSection("MQTT").Get<MQTTConfig>());
-        services.AddHostedService<ZoneGuardMQTTService>();
+        services.AddSingleton<IHostedService, ZoneGuardMQTTService>();
+        //services.AddHostedService<ZoneGuardMQTTService>();
+        */
+        //ZoneGuardMQTTService t = (ZoneGuardMQTTService)sc;
+
+        //services.AddHostedService<ZoneGuardMQTTService>();
 
 
 
@@ -58,35 +58,16 @@ namespace ZoneGuardCore
         var configBuilder = new ConfigurationBuilder();
         configBuilder.AddInMemoryCollection(new Dictionary<string, string>
      {
-            { "host", "192.168.9.50"},
+            { "host", "192.168.xxx.xxx"},
             { "port", "1883"},
-            { "user", "svc-alarm"},
-            { "password", "#openHAB@Home"},
+            { "user", "My User"},
+            { "password", "Very Secret"},
             { "qos", "2" }
      });
 
         
-        //services.Configure<MQTTConfig>(  hostContext.Configuration.GetSection("MQTT"));
-        IConfiguration c = configBuilder.Build();
-        MQTTConfig cfg = new MQTTConfig("192.168.9.50", "1883", "svc-alarm", "Secret!");
-        System.Action<MQTTConfig> myCfg = new System.Action<MQTTConfig>(cfg);
-        services.Configure<MQTTConfig>(myCfg);
-        services.AddSingleton<IHostedService, ZoneGuardMQTTService>();
 */
-        /*
-                services.AddSingleton<IHostedService, ZoneGuardMQTTService>(serviceProvider =>
-                {
-                    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-                    return MassTransit.Bus.Factory.CreateUsingRabbitMq(cfg =>
-                    {
-                        var host = cfg.Host(new Uri(configuration.GetConnectionString("RabbitMq")), h =>
-                        {
-                            h.Username("guest");
-                            h.Password("guest");
-                        });
-                    });
-                });
-                */
+
     })
     .ConfigureLogging((hostingContext, logging) => {
         logging.SetMinimumLevel(LogLevel.Debug);

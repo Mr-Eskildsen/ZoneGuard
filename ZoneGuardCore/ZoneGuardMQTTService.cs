@@ -14,6 +14,7 @@ using MQTTnet;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using ZoneGuard.Shared.Config.Service;
 
 namespace ZoneGuard.Core
 {
@@ -40,6 +41,12 @@ namespace ZoneGuard.Core
             string user = configuration["user"];
             string password = configuration["password"];
             */
+
+            //This returns a correct service, but prevents me from adding additional AbstractBackgroundProcessService implementations with different type parameters.
+            //Additionally, it seems like this reference was newly created, and not the instance that was created on application startup (i.e. the hash codes are different, and the constructor is called an additional time).
+            //var service = g. GetService<ZoneGuardAlarmManagerService>();
+            
+            
         }
 
         protected override void OnStopping()
@@ -187,6 +194,11 @@ namespace ZoneGuard.Core
             }
             Console.WriteLine();
 
+        }
+
+        public void Test(string topic)
+        {
+            Logger.LogDebug("### CALLING TEST ###");
         }
 
         public void Subscribe(string topic, CallbackEventHandler callback)
