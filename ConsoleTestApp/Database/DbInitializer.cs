@@ -54,7 +54,7 @@ namespace ZoneGuard.ConsoleTestApp.Database
 
         public static void AddSensorStateLog(ZoneGuardConfigContext context, SensorStateLogDAL ssl)
         {
-            context.SensorState.Add(ssl);
+            context.SensorStateLog.Add(ssl);
             context.SaveChanges();
         }
 

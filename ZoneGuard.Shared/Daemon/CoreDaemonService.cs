@@ -31,6 +31,7 @@ namespace ZoneGuard.Shared.Daemon
         public static string SERVICE_ID_MQ = "MQ";
 
         public Dictionary<String, SensorCore> dictSensors;
+        public Dictionary<String, SensorCore> dictMqttSensors;
         private Dictionary<String, ServiceCore> dictServices;
 
         protected ServiceMQ ServiceMQ { get; private set; }
@@ -75,17 +76,18 @@ namespace ZoneGuard.Shared.Daemon
             _logger.LogDebug("OnStarted method called.");
 
             // Instantiating dictionaries
+            dictMqttSensors = new Dictionary<String, SensorCore>();
             dictSensors = new Dictionary<String, SensorCore>();
             dictServices = new Dictionary<String, ServiceCore>();
 
             OnInitializeDatabase();
 
             OnInitializeServices();
+
+
+            OnSetupMessageQueue();
             
-
-
             OnInitializing();
-
 
             OnStarted();
         }
@@ -98,16 +100,26 @@ namespace ZoneGuard.Shared.Daemon
         protected abstract void OnInitializeServices();
         protected abstract void OnInitializing();
         
-        protected abstract void OnSetupMessageQueue(ServiceMQ serviceMQ);
+        protected abstract void OnSetupMessageQueue(/*ServiceMQ serviceMQ*/);
 
 
 
-        protected void addSensor(SensorCore sensor, bool replace)
+        protected void addMQTTSensor(SensorCore sensor, bool replace)
+        {
+            if ((replace) && (dictMqttSensors.ContainsKey(sensor.Id)))
+                dictMqttSensors.Remove(sensor.Id);
+
+            _logger.LogDebug("Adding MQTT sensor Id='{0}', NodeId='{1}', Activated='{2}'", sensor.Id, sensor.NodeId, sensor.Activated);
+            dictMqttSensors.Add(sensor.Id, sensor);
+        }
+
+
+        protected void addProxySensor(SensorCore sensor, bool replace)
         {
             if ((replace) && (dictSensors.ContainsKey(sensor.Id)))
                 dictSensors.Remove(sensor.Id);
 
-            _logger.LogDebug("Adding sensor Id='{0}', NodeId='{1}', Activated='{2}'", sensor.Id, sensor.NodeId, sensor.Activated);
+            //_logger.LogDebug("Adding Proxy sensor Id='{0}', NodeId='{1}', Activated='{2}'", sensor.Id, sensor.NodeId, sensor.Activated);
             dictSensors.Add(sensor.Id, sensor);
         }
 

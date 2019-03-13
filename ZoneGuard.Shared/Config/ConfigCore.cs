@@ -12,10 +12,14 @@ namespace ZoneGuard.Shared.Config
         {
             //public const string PARAMETER_ID = "id";
             public const string PARAMETER_NAME = "name";
+            public const string PARAMETER_TYPE = "type";
             public const string PARAMETER_CONFIG_CLASS = "config_class";
             public const string PARAMETER_THING_CLASS = "thing_class";
             public const string PARAMETER_THING_CATEGORY = "category";
             public const string PARAMETER_NODE_ID = "node_id";
+            public const string PARAMETER_TOPIC_STATE = "topic_state";
+            public const string PARAMETER_TOPIC_COMMAND = "topic_command";
+            public const string PARAMETER_IS_PERIMETER = "is_perimeter";
 
             [JsonIgnore]
             private Dictionary<string, string> dictParameters = null;

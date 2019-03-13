@@ -13,13 +13,13 @@ namespace ZoneGuard.Shared.Message
         }
 
 
-        public SensorStateMessage(string sensorId, bool state, DateTime timestamp) : base(sensorId, timestamp)
+        public SensorStateMessage(string sensorId, bool triggered, DateTime timestamp) : base(sensorId, timestamp)
         {
-            State = state;
+            Triggered = triggered;
         }
 
         [JsonProperty]
-        public bool State { get; private set; }
+        public bool Triggered { get; private set; }
         
     }
 }

@@ -63,7 +63,7 @@ namespace ZoneGuard.DAL.Data
         public DbSet<ZoneGuard.DAL.Models.Config.AlarmZoneDAL> AlarmZone { get; set; }
         public DbSet<ZoneGuard.DAL.Models.Config.AlarmZoneThingDAL> AlarmZoneThing { get; set; }
 
-        public DbSet<ZoneGuard.DAL.Models.Log.SensorStateLogDAL> SensorState { get; set; }
+        public DbSet<ZoneGuard.DAL.Models.Log.SensorStateLogDAL> SensorStateLog { get; set; }
         public DbSet<ZoneGuard.DAL.Models.Log.AlarmStateLogDAL> AlarmState { get; set; }
 
 

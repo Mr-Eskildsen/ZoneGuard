@@ -62,6 +62,7 @@ namespace ZoneGuard.Core
         protected override void OnInitializing()
         {
             Logger.LogDebug("OnInitializing method called.");
+            
 
         }
 
@@ -84,8 +85,9 @@ namespace ZoneGuard.Core
             alarmManager = new MQTTAlarmZoneMgr((ServiceMQTT)getServiceByName("MQTT"));
         }
 
-        protected override void OnSetupMessageQueue(ServiceMQ serviceMQ)
+        protected override void OnSetupMessageQueue()
         {
+            ServiceMQ serviceMQ = (ServiceMQ)getServiceByName("MQ");
             serviceMQ.CreateServerControlQueue(callbackControlMessageHandler);
             serviceMQ.CreateStateQueue(callbackStateMessageHandler);
         }
@@ -94,12 +96,12 @@ namespace ZoneGuard.Core
         {
             ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
 
-            //Make sure database exist 
             using (ZoneGuardConfigContext context = factory.CreateDbContext())
             {
                 context.Database.EnsureCreated();
             }
         }
+
 
 
 
@@ -173,7 +175,10 @@ namespace ZoneGuard.Core
 
                     Console.WriteLine(configSensor.toJSON());
 
-                    addSensor(new SensorProxy(configSensor, this), false);
+                    //TODO:: More Dynamic
+                    addMQTTSensor(new SensorMQTT(configSensor, this), true);
+
+                    addProxySensor(new SensorProxy(configSensor, this), false);
 
                 }
 
@@ -261,7 +266,9 @@ namespace ZoneGuard.Core
             Console.WriteLine(" State Message Arrived: {0}", message);
             SensorStateMessage ssm = MessageCore.fromJSON<SensorStateMessage>(message);
             SensorCore sensor = getSensorByName(ssm.Id);
-            ((SensorProxy)sensor).setState(ssm.State);
+
+
+            ((SensorProxy)sensor).setState(ssm.Triggered);
 
         }
 

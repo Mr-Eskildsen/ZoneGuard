@@ -21,8 +21,11 @@ namespace ZoneGuard.Shared.Config
         [JsonProperty(PropertyName = PARAMETER_NODE_ID)]
         public string NodeId { get { return getParameterValue(ConfigCore.PARAMETER_NODE_ID); } }
 
-        [JsonProperty(PropertyName = "topic")]
-        public string Topic { get { return getParameterValue("topic"); } }
+        [JsonProperty(PropertyName = ConfigCore.PARAMETER_TOPIC_STATE)]
+        public string TopicState { get { return getParameterValue(ConfigCore.PARAMETER_TOPIC_STATE); } }
+
+        //[JsonProperty(PropertyName = ConfigCore.PARAMETER_TOPIC_STATE)]
+        //public string TopicCommand { get { return getParameterValue(ConfigCore.PARAMETER_TOPIC_STATE); } }
 
     }
 }

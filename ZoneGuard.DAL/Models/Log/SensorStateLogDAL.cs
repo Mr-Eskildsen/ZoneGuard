@@ -14,15 +14,13 @@ namespace ZoneGuard.DAL.Models.Log
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        //[Required]
-        //public ThingDAL Sensor { get; set; }
-
         [Required]
         public String SensorName { get; set; }
 
         [Required]
-        public int Triggered { get; set; }
-        
+        public String State { get; set; }
+
+        [Required]
         public DateTime CreatedTimestamp { get; set; }
 
     }

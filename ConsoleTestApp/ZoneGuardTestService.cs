@@ -9,6 +9,7 @@ using System.Linq;
 using ZoneGuard.ConsoleTestApp.Database;
 using ZoneGuard.DAL.Data;
 using ZoneGuard.DAL.Models.Config;
+using ZoneGuard.Shared.Config;
 using ZoneGuard.Shared.Daemon;
 using ZoneGuard.Shared.Thing.Service;
 
@@ -35,7 +36,6 @@ namespace ZoneGuard.ConsoleTestApp
         }
 
 
-
         protected override void OnStopping()
         {
             Logger.LogDebug("OnStopping method called.");
@@ -59,7 +59,7 @@ namespace ZoneGuard.ConsoleTestApp
             ClearConfigTables();
         }
 
-        protected override void OnSetupMessageQueue(ServiceMQ serviceMQ)
+        protected override void OnSetupMessageQueue(/*ServiceMQ serviceMQ*/)
         {
         }
 
@@ -89,8 +89,6 @@ namespace ZoneGuard.ConsoleTestApp
         }
 
 
-
-
         private void ensureDatabaseCreated()
         {
             ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
@@ -102,7 +100,6 @@ namespace ZoneGuard.ConsoleTestApp
             }
         }
         //https://www.bmwbayer.de
-
 
         private void ClearConfigTables()
         {
@@ -555,15 +552,15 @@ namespace ZoneGuard.ConsoleTestApp
             DateTime timestamp = DateTime.UtcNow;
 
             thing = new ThingDAL { Name = Name, Description = _description, ThingType = _type, NodeId = node.Id, Timestamp = timestamp };
-
-            thingParameters.Add(new ThingParameterDAL { Name = "category", Value = "sensor", Timestamp = timestamp });
-            thingParameters.Add(new ThingParameterDAL { Name = "config_class", Value = "ConfigSensor", Timestamp = timestamp });
-            thingParameters.Add(new ThingParameterDAL { Name = "thing_class", Value = "SensorMQTT", Timestamp = timestamp });
-            thingParameters.Add(new ThingParameterDAL { Name = "type", Value = "sensor", Timestamp = timestamp });
-            thingParameters.Add(new ThingParameterDAL { Name = "name", Value = Name, Timestamp = timestamp });
-            thingParameters.Add(new ThingParameterDAL { Name = "is_perimeter", Value = isPerimeter.ToString().ToLower() });
-            thingParameters.Add(new ThingParameterDAL { Name = "topicState", Value = topicOffset + Name.ToLower() + "/state" });
-            thingParameters.Add(new ThingParameterDAL { Name = "topicCommand", Value = "" });
+            
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_THING_CATEGORY, Value = "sensor", Timestamp = timestamp });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_CONFIG_CLASS, Value = "ConfigSensor", Timestamp = timestamp });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_THING_CLASS, Value = "SensorMQTT", Timestamp = timestamp });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TYPE, Value = "sensor", Timestamp = timestamp });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_NAME, Value = Name, Timestamp = timestamp });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_IS_PERIMETER, Value = isPerimeter.ToString().ToLower() });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TOPIC_STATE, Value = topicOffset + Name.ToLower() + "/state" });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TOPIC_COMMAND, Value = "" });
            
             DbInitializer.ThingConfig_Create(context, thing, thingParameters.ToArray());
             return thing;

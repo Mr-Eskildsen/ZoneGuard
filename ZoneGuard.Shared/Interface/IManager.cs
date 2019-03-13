@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ZoneGuard.Shared.Message;
+using ZoneGuard.Shared.Thing.Sensor;
 using ZoneGuard.Shared.Thing.Service;
 
 namespace ZoneGuard.Shared.Interface
@@ -10,12 +12,11 @@ namespace ZoneGuard.Shared.Interface
     {
         ILoggerFactory getLoggerFactory();
 
-        //TODO:: Migrate
-        //SensorCore getSensorByName(String name);
+        SensorCore getSensorByName(String name);
         ServiceCore getServiceByName(String name);
 
-        //TODO:: Migrate
-        //void PublishSensorState(SensorStateMessage ssm);
+        
+        void PublishSensorState(SensorStateMessage ssm);
     }
 
 }
