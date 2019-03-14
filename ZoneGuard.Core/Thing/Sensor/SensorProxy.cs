@@ -15,25 +15,29 @@ namespace ZoneGuard.Core.Thing.Sensor
         }
 
 
-        public void setState(bool triggeredState)
+        public void setTriggeredState(bool newTriggeredState)
         {
             if (Activated)
             {
-                //Log TO DATABASE
-                ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
-
-                using (ZoneGuardConfigContext context = factory.CreateDbContext())
+                if (Triggered != newTriggeredState)
                 {
-                    SensorStateLogDAL ssl = new SensorStateLogDAL();
-                    ssl.SensorName = Id;
-                    ssl.State = triggeredState.ToString();
-                    ssl.CreatedTimestamp = DateTime.UtcNow;
-
-                    context.SensorStateLog.Add(ssl);
-                    context.SaveChanges();
+                    //Log Raw data to database
+                    ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
+                    using (ZoneGuardConfigContext context = factory.CreateDbContext())
+                    {
+                        SensorStateLogDAL stateLog = new SensorStateLogDAL();
+                        stateLog.SensorName = Id;
+                        stateLog.Triggered = (newTriggeredState ? 1 : 0);
+                        stateLog.Timestamp = DateTime.UtcNow;
+                        
+                        context.SensorStateLog.Add(stateLog);
+                        context.SaveChanges();
+                    }
                 }
-                
-                Triggered = triggeredState;
+
+                Triggered = newTriggeredState;
+
+
                 //OnTriggeredChanged(new SensorTriggeredEventArgs(Id, Triggered));
                 RaiseTriggeredChanged(new SensorTriggeredEventArgs(Id, Triggered));
             }        

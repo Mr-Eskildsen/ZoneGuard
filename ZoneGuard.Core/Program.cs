@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ZoneGuard.Core;
+using ZoneGuard.DAL.Data;
 using ZoneGuard.Shared.Daemon;
 
 namespace ZoneGuardCore
@@ -28,9 +31,10 @@ namespace ZoneGuardCore
   
     .ConfigureServices((hostContext, services) =>
     {
-    
+
         services.AddOptions();
 
+        services.Configure<ServiceConfig>(hostContext.Configuration.GetSection("ConnectionStrings"));
         services.Configure<ServiceConfig>(hostContext.Configuration.GetSection("Daemon"));
         services.AddHostedService<ZoneGuardAlarmManagerService>();
         /*
@@ -69,9 +73,13 @@ namespace ZoneGuardCore
 */
 
     })
+    //https://itnext.io/loggly-in-asp-net-core-using-serilog-dc0e2c7d52eb
+
     .ConfigureLogging((hostingContext, logging) => {
+
         logging.SetMinimumLevel(LogLevel.Debug);
         logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+
         logging.AddConsole();
     });
 
@@ -79,3 +87,7 @@ namespace ZoneGuardCore
         }
     }
 }
+
+
+//TODO:: Logging
+//https://ondrejbalas.com/using-serilog-with-asp-net-core-2-0/

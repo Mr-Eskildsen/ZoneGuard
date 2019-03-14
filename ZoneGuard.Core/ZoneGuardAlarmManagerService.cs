@@ -9,11 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using ZoneGuard.Core.Alarm;
 using ZoneGuard.Core.Thing.Alarm;
 using ZoneGuard.Core.Thing.Sensor;
 using ZoneGuard.DAL.Data;
 using ZoneGuard.DAL.Models.Config;
+using ZoneGuard.DAL.Models.Log;
 using ZoneGuard.Shared.Config;
 using ZoneGuard.Shared.Daemon;
 using ZoneGuard.Shared.Interface;
@@ -72,7 +74,7 @@ namespace ZoneGuard.Core
 
             OnSetupAlarmManager();
 
-            LoadFromDatabase();
+            LoadFromDatabase().Wait();
 
         }
 
@@ -82,16 +84,28 @@ namespace ZoneGuard.Core
 
         protected void OnSetupAlarmManager()
         {
-            alarmManager = new MQTTAlarmZoneMgr((ServiceMQTT)getServiceByName("MQTT"));
+            ServiceMQTT mqtt_service = (ServiceMQTT)getServiceByName(CoreDaemonService.SERVICE_ID_MQTT);
+
+            if (mqtt_service != null)
+            {
+                alarmManager = new MQTTAlarmZoneMgr((ServiceMQTT)getServiceByName(CoreDaemonService.SERVICE_ID_MQTT));
+            }
+            else
+            {
+                alarmManager = null;
+            }
         }
 
         protected override void OnSetupMessageQueue()
         {
-            ServiceMQ serviceMQ = (ServiceMQ)getServiceByName("MQ");
-            serviceMQ.CreateServerControlQueue(callbackControlMessageHandler);
-            serviceMQ.CreateStateQueue(callbackStateMessageHandler);
+            ServiceMQ serviceMQ = (ServiceMQ)getServiceByName(CoreDaemonService.SERVICE_ID_MQ);
+            if (serviceMQ != null)
+            {
+                serviceMQ.CreateServerControlQueue(callbackControlMessageHandler);
+                serviceMQ.CreateStateQueue(callbackStateMessageHandler);
+            }
         }
-
+        
         protected override void OnInitializeDatabase()
         {
             ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
@@ -102,10 +116,13 @@ namespace ZoneGuard.Core
             }
         }
 
+        protected override void OnInitializeServices()
+        {
+            Task task = _InitializeServices();
+            task.Wait();
+        }
 
-
-
-        protected async override void OnInitializeServices()
+        private async Task _InitializeServices()
         {
             ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
 
@@ -152,7 +169,7 @@ namespace ZoneGuard.Core
 
 
 
-        private async void LoadFromDatabase()
+        private async Task LoadFromDatabase()
         {
             ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
 
@@ -266,9 +283,7 @@ namespace ZoneGuard.Core
             Console.WriteLine(" State Message Arrived: {0}", message);
             SensorStateMessage ssm = MessageCore.fromJSON<SensorStateMessage>(message);
             SensorCore sensor = getSensorByName(ssm.Id);
-
-
-            ((SensorProxy)sensor).setState(ssm.Triggered);
+            ((SensorProxy)sensor).setTriggeredState(ssm.Triggered);
 
         }
 

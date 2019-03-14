@@ -20,33 +20,31 @@ namespace ZoneGuard.DAL.Data
             return CreateDbContext(null);
         }
 
+
         public ZoneGuardConfigContext CreateDbContext(string[] args)
         {
+
+
+            //var builder = new DbContextOptionsBuilder<ZoneGuardConfigContext>();
+            //builder.UseSqlServer("Server=localhost;Database=DbName;Trusted_Connection=True;MultipleActiveResultSets=true");
+            //return new ZoneGuardConfigContext(builder.Options);
+
+
+            /*
             if (string.IsNullOrEmpty(_connectionString))
             {
                 LoadConnectionString();
             }
-
-            var builder = new DbContextOptionsBuilder<ZoneGuardConfigContext>();
-            //TODO:: FIX MSSQL builder.UseSqlServer(_connectionString);
-            builder.UseSqlite("Data Source=zoneguard.db");
-
-            return new ZoneGuardConfigContext(builder.Options);
-        }
-
-        private static void LoadConnectionString()
-        {
-            /*
-            var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json", optional: false);
-
-            var configuration = builder.Build();
-
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
             */
-            _connectionString = "Server=(localdb)\\mssqllocaldb;Database=AlarmManager;Trusted_Connection=True;MultipleActiveResultSets=true";
-        }
+            var builder = new DbContextOptionsBuilder<ZoneGuardConfigContext>();
+            //string connectionString = configuration.GetConnectionString("DefaultConnection");
+            
+            //builder.UseSqlServer(_connectionString);
+            //builder.UseSqlite("Data Source=zoneguard.db");
 
+            return new ZoneGuardConfigContext( builder.Options);
+        }
+        
         public static ConfigAlarmZone CreateConfigAlarmZoneFromDAL(AlarmZoneDAL zone)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();

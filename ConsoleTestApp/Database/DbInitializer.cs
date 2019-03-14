@@ -7,6 +7,7 @@ using ZoneGuard.DAL.Data;
 using ZoneGuard.DAL.Models.Config;
 using ZoneGuard.DAL.Models.Log;
 
+
 namespace ZoneGuard.ConsoleTestApp.Database
 {
     public class DbInitializer
@@ -51,6 +52,7 @@ namespace ZoneGuard.ConsoleTestApp.Database
             context.SaveChanges();
         }
         */
+
 
         public static void AddSensorStateLog(ZoneGuardConfigContext context, SensorStateLogDAL ssl)
         {

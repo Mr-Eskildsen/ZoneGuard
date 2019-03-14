@@ -124,8 +124,9 @@ namespace ZoneGuard.Shared.Thing.Service
                 Unsubscribe(topic);
                 subscriptions.Remove(topic);
             }
-            await mqttClient.SubscribeAsync( new TopicFilter(topic, MqttQualityOfServiceLevel.AtMostOnce));
             subscriptions.Add(topic, callback);
+            await mqttClient.SubscribeAsync( new TopicFilter(topic, MqttQualityOfServiceLevel.AtMostOnce));
+            
 
             getLogger().LogInformation("### SUBSCRIBED topic='" + topic + "'  ###");
         }

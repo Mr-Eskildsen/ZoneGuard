@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,8 +20,6 @@ namespace ZoneGuard.DAL.Models.Config
         [Required]
         public int Enabled { get; set; }
 
-        //[DisplayFormat(NullDisplayText = "Type not set")]
-        //public COn { get; set; }
 
         public ICollection<AlarmZoneThingDAL> Sensors { get; set; }
 

@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZoneGuard.DAL.Models.State
 {
-
+    [Table("state_AlarmState")]
     public class AlarmStateDAL
     {
         public int Id { get; set; }

@@ -12,7 +12,7 @@ namespace ZoneGuard.DAL.Models.Config
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public Guid UniqueIdentifier { get; set; }
 
         [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.")]

@@ -144,10 +144,10 @@ namespace ZoneGuard.ConsoleTestApp
                                                                                                                     { "config_class", "ConfigServiceMQ" },
                                                                                                                     { "thing_class", "ServiceMQ" },
                                                                                                                     { "name", "MQ" },
-                                                                                                                    { "host", "192.168.1.110" },
-                                                                                                                    { "user", "svc-homemanager" },
-                                                                                                                    { "password", "HomeManager01" },
-                                                                                                                    { "vhost", "zoneguard" }
+                                                                                                                    { "host", "192.168.9.40" },
+                                                                                                                    { "user", "svc-alarm-test" },
+                                                                                                                    { "password", "Alarm01" },
+                                                                                                                    { "vhost", "zoneguard-test" }
                                                                                                                     });
 
 
@@ -159,9 +159,9 @@ namespace ZoneGuard.ConsoleTestApp
                                                                                                                     { "config_class", "ConfigServiceMQTT" },
                                                                                                                     { "thing_class", "ServiceMQTT" },
                                                                                                                     { "name", "MQTT" },
-                                                                                                                    { "host", "192.168.1.50" }/*,
-                                                                                                                    { "user", "svc-homemanager" },
-                                                                                                                    { "password", "HomeManager01" }*/
+                                                                                                                    { "host", "192.168.1.50" },
+                                                                                                                    { "user", "svc-openhab" },
+                                                                                                                    { "password", "#openHAB@Home#" }
                                                                                                                     });
 
             }
@@ -172,7 +172,9 @@ namespace ZoneGuard.ConsoleTestApp
 
         private void CreateConfiguration_Sensors()
         {
-            string topicOffset = "test/";
+            
+
+            string topicOffset = "zwavebus/state/";
             ThingDAL thing;
             ZoneGuardConfigContextFactory factory = new ZoneGuardConfigContextFactory();
 
@@ -180,34 +182,35 @@ namespace ZoneGuard.ConsoleTestApp
             using (ZoneGuardConfigContext context = factory.CreateDbContext())
             {
                 
-                thing = AddMQTTSensor(context, node, "LivingroomWindow1", "Window in Livingroom", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "LivingroomWindow2", "Window in Livingroom", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "LivingroomWindow3", "Window in Livingroom", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "LivingroomDoor1", "Door in Livingroom", ThingType.Sensor, "door", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "OfficeWindow1", "Window in Office", ThingType.Sensor, "window", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "LivingroomWindow1", "Window in Livingroom", ThingType.Sensor, "window", "livingroom", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "LivingroomWindow2", "Window in Livingroom", ThingType.Sensor, "window", "livingroom", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "LivingroomWindow3", "Window in Livingroom", ThingType.Sensor, "window", "livingroom", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "LivingroomDoor1", "Door in Livingroom", ThingType.Sensor, "door", "livingroom", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "HallwayWindow1", "Window in Hallway", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "FrederikWindow1", "Window in Frederiks room", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "CecilieWindow1", "Window in Cecilies room", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "SofieWindow1", "Window in Sofies room", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "BedroomWindow1", "Window in Bedroom", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "BackentranceWindow1", "Window in Backentrance", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "BackentranceDoor1", "Door in Backentrance", ThingType.Sensor, "door", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "OfficeWindow1", "Window in Office", ThingType.Sensor, "window", "office", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "BathroomWindow1", "Window in Bathroom", ThingType.Sensor, "window", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "EntranceDoor1", "Door in Entrance", ThingType.Sensor, "door", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "HallwayWindow1", "Window in Hallway", ThingType.Sensor, "window", "hallway", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "FrederikWindow1", "Window in Frederiks room", ThingType.Sensor, "window", "frederik", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "CecilieWindow1", "Window in Cecilies room", ThingType.Sensor, "window", "cecilie", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "SofieWindow1", "Window in Sofies room", ThingType.Sensor, "window", "sofie", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "BedroomWindow1", "Window in Bedroom", ThingType.Sensor, "window", "bedroom", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "BackentranceWindow1", "Window in Backentrance", ThingType.Sensor, "window", "backentrance", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "BackentranceDoor1", "Door in Backentrance", ThingType.Sensor, "door", "backentrance", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "KitchenWindow1", "Window in Kitchen", ThingType.Sensor, "window", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "BathroomWindow1", "Window in Bathroom", ThingType.Sensor, "window", "bathroom", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "EntranceDoor1", "Door in Entrance", ThingType.Sensor, "door", "entrance", true, topicOffset);
+
+                thing = AddMQTTSensor(context, node, "KitchenWindow1", "Window in Kitchen", ThingType.Sensor, "window", "kitchen", true, topicOffset);
                 //                thing = AddMQTTSensor(context, "BackentranceWindow1", "Window in Backentrance", ThingType.Sensor, "window", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "HallwayPir1", "Pir sensor 1 in Hallway", ThingType.Sensor, "pir", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "HallwayPir2", "Pir sensor 2 in Hallway", ThingType.Sensor, "pir", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "HallwayPir1", "Pir sensor 1 in Hallway", ThingType.Sensor, "pir", "hallway", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "HallwayPir2", "Pir sensor 2 in Hallway", ThingType.Sensor, "pir", "hallway", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "BackyardPir1", "Pir in Backyard", ThingType.Sensor, "pir", true, topicOffset);
-                thing = AddMQTTSensor(context, node, "FrontPir1", "Pir in Front of house", ThingType.Sensor, "pir", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "BackyardPir1", "Pir in Backyard", ThingType.Sensor, "pir", "backyard", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "FrontPir1", "Pir in Front of house", ThingType.Sensor, "pir", "front", true, topicOffset);
 
-                thing = AddMQTTSensor(context, node, "BackyardDoor1", "Door from Carport to backyard", ThingType.Sensor, "door", true, topicOffset);
+                thing = AddMQTTSensor(context, node, "BackyardDoor1", "Door from Carport to backyard", ThingType.Sensor, "door", "backyard", true, topicOffset);
 
                 
             }
@@ -545,21 +548,20 @@ namespace ZoneGuard.ConsoleTestApp
 
 
             //, Dictionary<string, string> parameters
-        private ThingDAL AddMQTTSensor(ZoneGuardConfigContext context, NodeDAL node, String Name, String _description, ThingType _type, String sensorType, Boolean isPerimeter, String topicOffset)
+        private ThingDAL AddMQTTSensor(ZoneGuardConfigContext context, NodeDAL node, String Name, String _description, ThingType _type, String sensorType, String locationId, Boolean isPerimeter, String topicOffset)
         {
             ThingDAL thing = null;
             List<ThingParameterDAL> thingParameters = new List<ThingParameterDAL>();
             DateTime timestamp = DateTime.UtcNow;
 
             thing = new ThingDAL { Name = Name, Description = _description, ThingType = _type, NodeId = node.Id, Timestamp = timestamp };
-            
             thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_THING_CATEGORY, Value = "sensor", Timestamp = timestamp });
             thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_CONFIG_CLASS, Value = "ConfigSensor", Timestamp = timestamp });
             thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_THING_CLASS, Value = "SensorMQTT", Timestamp = timestamp });
-            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TYPE, Value = "sensor", Timestamp = timestamp });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TYPE, Value = sensorType, Timestamp = timestamp });
             thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_NAME, Value = Name, Timestamp = timestamp });
             thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_IS_PERIMETER, Value = isPerimeter.ToString().ToLower() });
-            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TOPIC_STATE, Value = topicOffset + Name.ToLower() + "/state" });
+            thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TOPIC_STATE, Value = topicOffset + locationId.ToLower() + "/" + Name.ToLower() + "/state" });
             thingParameters.Add(new ThingParameterDAL { Name = ConfigCore.PARAMETER_TOPIC_COMMAND, Value = "" });
            
             DbInitializer.ThingConfig_Create(context, thing, thingParameters.ToArray());

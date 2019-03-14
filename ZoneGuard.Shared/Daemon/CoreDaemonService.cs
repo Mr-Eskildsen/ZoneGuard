@@ -141,6 +141,8 @@ namespace ZoneGuard.Shared.Daemon
 
         public ServiceCore getServiceByName(String name)
         {
+            if (!dictServices.ContainsKey(name))
+                return null;
             return dictServices[name];
         }
 

@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using ZoneGuard.DAL.Models.Config;
+using System.Text;
 
 namespace ZoneGuard.DAL.Models.Log
 {
     [Table("log_SensorState")]
     public class SensorStateLogDAL
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity), Column(Order = 1)]
         public int Id { get; set; }
 
-        [Required]
+        [Required, StringLength(50), Column(Order = 2)]
         public String SensorName { get; set; }
 
-        [Required]
-        public String State { get; set; }
+        [Required, Column(Order = 3)]
+        public int Triggered { get; set; }
 
-        [Required]
-        public DateTime CreatedTimestamp { get; set; }
+        
+        //public bool TriggeredBool { get; set; }
+
+        [Required, Column(Order = 4)]
+        public DateTime Timestamp { get; set; }
 
     }
 }
