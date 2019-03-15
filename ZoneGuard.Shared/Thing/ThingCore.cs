@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using ZoneGuard.Shared.Config;
 using ZoneGuard.Shared.Interface;
 
 namespace ZoneGuard.Shared.Thing
 {
-    public abstract class ThingCore
+    public abstract class ThingCore : IDisposable
     {
         private ConfigCore config;
         
@@ -75,6 +76,10 @@ namespace ZoneGuard.Shared.Thing
 
             return obj;
 
+        }
+
+        public virtual void Dispose()
+        {
         }
     }
 }

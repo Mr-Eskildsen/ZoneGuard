@@ -39,7 +39,15 @@ namespace ZoneGuard.Shared.Thing.Service
         }
 
 
-
+        public override void Dispose()
+        {
+            if (mq_connection.IsOpen)
+            {
+                mq_connection.Close();
+                
+            }
+            mq_connection = null;
+        }
 
         protected override void onInitialize()
         {

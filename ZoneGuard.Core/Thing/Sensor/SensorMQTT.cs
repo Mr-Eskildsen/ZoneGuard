@@ -41,8 +41,10 @@ namespace ZoneGuard.Core.Thing.Sensor
             topicState = cfg.getParameterValue(ConfigCore.PARAMETER_TOPIC_STATE);
             sensorType = cfg.getParameterValue(ConfigCore.PARAMETER_TYPE);
             ServiceMQTT serviceMQTT = (ServiceMQTT)getManager().getServiceByName(CoreDaemonService.SERVICE_ID_MQTT);
-
-            serviceMQTT.Subscribe(topicState, this.onMqttMessage);
+            if (serviceMQTT!=null)
+            {
+                serviceMQTT.Subscribe(topicState, this.onMqttMessage);
+            }
             
 
         }

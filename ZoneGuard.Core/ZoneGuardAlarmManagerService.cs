@@ -160,7 +160,14 @@ namespace ZoneGuard.Core
                     {
                         service = new ServiceMQ((ConfigServiceMQ)configService, this);
                     }
-                    addService(service);
+                    if (service != null)
+                    {
+                        addService(service);
+                    }
+                    else
+                    {
+                        Logger.LogWarning("Service '{0}' not created.", configService.Id);
+                    }
                 }
             }
             }

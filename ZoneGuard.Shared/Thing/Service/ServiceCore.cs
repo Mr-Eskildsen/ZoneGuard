@@ -13,17 +13,20 @@ namespace ZoneGuard.Shared.Thing.Service
 
             //            manager.getLoggerFactory().CreateLogger(GetType().FullName).LogInformation("Jepperdi");
         }
+
+
+
         /*        
-                public static ServiceCore CreateServiceFromJSON(Type myType, String clsName)
-                {
-                    String name = myType.FullName;
-                    ServiceCore serviceObj = null; // new ServiceMQ();
-                                                   //myObject = (MyAbstractClass)Activator.CreateInstance("AssemblyName", "TypeName");
-                    Type cls = Assembly.GetExecutingAssembly().GetType("HomeManager2.Shared.Thing.Service." + clsName);
-                   // serviceObj = Activator.CreateInstance(cls);
-                    return serviceObj;
-                }
-                */
+       public static ServiceCore CreateServiceFromJSON(Type myType, String clsName)
+       {
+           String name = myType.FullName;
+           ServiceCore serviceObj = null; // new ServiceMQ();
+                                          //myObject = (MyAbstractClass)Activator.CreateInstance("AssemblyName", "TypeName");
+           Type cls = Assembly.GetExecutingAssembly().GetType("HomeManager2.Shared.Thing.Service." + clsName);
+          // serviceObj = Activator.CreateInstance(cls);
+           return serviceObj;
+       }
+       */
 
 
     }

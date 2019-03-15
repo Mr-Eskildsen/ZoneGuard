@@ -34,7 +34,7 @@ namespace ZoneGuard.Shared.Daemon
         public Dictionary<String, SensorCore> dictMqttSensors;
         private Dictionary<String, ServiceCore> dictServices;
 
-        protected ServiceMQ ServiceMQ { get; private set; }
+        protected ServiceMQ ServiceMQ { get { return (ServiceMQ)getServiceByName(SERVICE_ID_MQ); } }
         protected ILogger Logger { get { return _logger; } }
 
         public CoreDaemonService(IConfiguration configuration, IHostingEnvironment environment, ILogger<CoreDaemonService> logger, IOptions<ServiceConfig> config, IApplicationLifetime appLifetime)
@@ -69,6 +69,23 @@ namespace ZoneGuard.Shared.Daemon
         {
             _logger.LogDebug("Disposing....");
 
+            foreach(SensorCore sensor in dictMqttSensors.Values)
+            {
+                sensor.Dispose();
+            }
+            dictMqttSensors.Clear();
+
+            foreach (SensorCore sensor in dictSensors.Values)
+            {
+                sensor.Dispose();
+            }
+            dictSensors.Clear();
+
+            foreach (ServiceCore service in dictServices.Values)
+            {
+                service.Dispose();
+            }
+            dictServices.Clear();
         }
 
         protected void OnCoreStarted()
@@ -125,11 +142,6 @@ namespace ZoneGuard.Shared.Daemon
 
         protected void addService(ServiceCore service)
         {
-            if(SERVICE_ID_MQ== service.Id)
-            {
-                ServiceMQ = (ServiceMQ)service;
-            }
-
             dictServices.Add(service.Id, service);
         }
 
